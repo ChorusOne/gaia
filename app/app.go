@@ -80,6 +80,10 @@ func MakeCodec() *codec.Codec {
 	return cdc
 }
 
+func (app *GaiaApp) GetCodec() *codec.Codec {
+	return app.cdc
+}
+
 // Extended ABCI application
 type GaiaApp struct {
 	*bam.BaseApp
@@ -260,4 +264,20 @@ func (app *GaiaApp) ModuleAccountAddrs() map[string]bool {
 	}
 
 	return modAccAddrs
+}
+
+func (app *GaiaApp) StakingKeeper() staking.Keeper {
+	return app.stakingKeeper
+}
+
+func (app *GaiaApp) DistrKeeper() distr.Keeper {
+	return app.distrKeeper
+}
+
+func (app *GaiaApp) BankKeeper() bank.Keeper {
+	return app.bankKeeper
+}
+
+func (app *GaiaApp) AccountKeeper() auth.AccountKeeper {
+	return app.accountKeeper
 }
