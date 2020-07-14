@@ -2,10 +2,10 @@
 # > docker build -t gaia .
 # > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.gaiad:/root/.gaiad -v ~/.gaiacli:/root/.gaiacli gaia gaiad init
 # > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.gaiad:/root/.gaiad -v ~/.gaiacli:/root/.gaiacli gaia gaiad start
-FROM golang:alpine AS build-env
+FROM golang:1.14-buster AS build-env
 
 # Set up dependencies
-ENV PACKAGES curl make git libc-dev bash gcc linux-headers eudev-dev python
+ENV PACKAGES curl make git libc-dev bash gcc linux-kernel-headers libudev1 python -y
 
 # Set working directory for the build
 WORKDIR /go/src/github.com/cosmos/gaia
@@ -14,15 +14,15 @@ WORKDIR /go/src/github.com/cosmos/gaia
 COPY . .
 
 # Install minimum necessary dependencies, build Cosmos SDK, remove packages
-RUN apk add --no-cache $PACKAGES && \
+RUN apt install $PACKAGES && \
     make tools && \
     make install
 
 # Final image
-FROM alpine:edge
+FROM debian:buster-slim
 
 # Install ca-certificates
-RUN apk add --update ca-certificates
+RUN apt update && apt install ca-certificates -y
 WORKDIR /root
 
 # Copy over binaries from the build-env
