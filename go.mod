@@ -15,4 +15,4 @@ require (
 	github.com/tendermint/tm-db v0.5.1
 )
 
-replace github.com/cosmos/cosmos-sdk => ../cosmos-sdk
+replace github.com/cosmos/cosmos-sdk => github.com/ChorusOne/cosmos-sdk v0.34.4-0.20200714004533-0ac94dcc0005

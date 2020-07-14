@@ -9,6 +9,8 @@ github.com/ChainSafe/go-schnorrkel v0.0.0-20200102211924-4bcbc698314f h1:4O1om+U
 github.com/ChainSafe/go-schnorrkel v0.0.0-20200102211924-4bcbc698314f/go.mod h1:URdX5+vg25ts3aCh8H5IFZybJYKWhJHYMTnf+ULtoC4=
 github.com/ChainSafe/go-schnorrkel v0.0.0-20200405005733-88cbf1b4c40d h1:nalkkPQcITbvhmL4+C4cKA87NW0tfm3Kl9VXRoPywFg=
 github.com/ChainSafe/go-schnorrkel v0.0.0-20200405005733-88cbf1b4c40d/go.mod h1:URdX5+vg25ts3aCh8H5IFZybJYKWhJHYMTnf+ULtoC4=
+github.com/ChorusOne/cosmos-sdk v0.34.4-0.20200714004533-0ac94dcc0005 h1:GVoXHsSoviVfna2EGRUCmyqnToSI85dIKRtWCSSh1hE=
+github.com/ChorusOne/cosmos-sdk v0.34.4-0.20200714004533-0ac94dcc0005/go.mod h1:IbkVCr2tOaJRrCXKugxHAlVPADk4xJhdUJVQjVF3vwg=
 github.com/CosmWasm/go-cosmwasm v0.8.1 h1:zoFRyB78CyInPFoC6AtY2cRSqew5P0cD0CP/cvVRBXk=
 github.com/CosmWasm/go-cosmwasm v0.8.1/go.mod h1:gAFCwllx97ejI+m9SqJQrmd2SBW7HA0fOjvWWJjM2uc=
 github.com/CosmWasm/wasmd v0.8.1 h1:LxZPpBt3YjzttkjypWs96er6IOEG6t4nPHDd5ccWtLU=
