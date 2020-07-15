@@ -28,6 +28,7 @@ WORKDIR /root
 # Copy over binaries from the build-env
 COPY --from=build-env /go/bin/gaiad /usr/bin/gaiad
 COPY --from=build-env /go/bin/gaiacli /usr/bin/gaiacli
+COPY --from=build-env /go/pkg/mod/github.com/!cosm!wasm/go-cosmwasm@v0.8.1/api/libgo_cosmwasm.so /lib/libgo_cosmwasm.so
 
 # Run gaiad by default, omit entrypoint to ease using container with gaiacli
 CMD ["gaiad"]
