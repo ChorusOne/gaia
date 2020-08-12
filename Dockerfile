@@ -21,14 +21,27 @@ RUN apt install $PACKAGES && \
 # Final image
 FROM debian:buster-slim
 
+ARG GROUP_ID
+ARG USER_ID
+
 # Install ca-certificates
 RUN apt update && apt install ca-certificates -y
-WORKDIR /root
+
+RUN groupadd -g ${GROUP_ID} gaia &&\
+    useradd -l -u ${USER_ID} -g gaia gaia &&\
+    install -d -m 0755 -o gaia -g gaia /home/gaia
+
+
+WORKDIR /home/gaia
 
 # Copy over binaries from the build-env
 COPY --from=build-env /go/bin/gaiad /usr/bin/gaiad
 COPY --from=build-env /go/bin/gaiacli /usr/bin/gaiacli
 COPY --from=build-env /go/pkg/mod/github.com/!cosm!wasm/go-cosmwasm@v0.8.1/api/libgo_cosmwasm.so /lib/libgo_cosmwasm.so
+
+RUN mkdir /home/gaia/.gaiad && chown gaia:gaia /home/gaia/.gaiad -R
+
+USER gaia
 
 # Run gaiad by default, omit entrypoint to ease using container with gaiacli
 CMD ["gaiad"]
