@@ -4,6 +4,8 @@
 # > docker run -it -p 46657:46657 -p 46656:46656 -v ~/.gaiad:/root/.gaiad -v ~/.gaiacli:/root/.gaiacli gaia gaiad start
 FROM golang:1.14-buster AS build-env
 
+ENV RUST_TOOLCHAIN=nightly-2020-05-31
+
 # Set up dependencies
 ENV PACKAGES curl make git libc-dev bash gcc linux-kernel-headers libudev1 python -y
 
@@ -12,6 +14,18 @@ WORKDIR /go/src/github.com/cosmos/gaia
 
 # Add source files
 COPY . .
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y && \
+	export PATH="$PATH:$HOME/.cargo/bin" && \
+	rustup toolchain install $RUST_TOOLCHAIN && \
+	rustup target add wasm32-unknown-unknown --toolchain $RUST_TOOLCHAIN && \
+	rustup default stable && \
+	rustup default $RUST_TOOLCHAIN
+
+RUN export PATH="$PATH:$HOME/.cargo/bin" && git clone https://github.com/ChorusOne/substrate-light-client.git /wasm/substrate_light_client && \
+    cd /wasm/substrate_light_client && \
+    make wasm-optimized && \
+    cp target/wasm32-unknown-unknown/release/substrate_client.wasm /wasm/substrate_client.wasm
 
 # Install minimum necessary dependencies, build Cosmos SDK, remove packages
 RUN apt install $PACKAGES && \
@@ -38,6 +52,7 @@ WORKDIR /home/gaia
 COPY --from=build-env /go/bin/gaiad /usr/bin/gaiad
 COPY --from=build-env /go/bin/gaiacli /usr/bin/gaiacli
 COPY --from=build-env /go/pkg/mod/github.com/!cosm!wasm/go-cosmwasm@v0.8.1/api/libgo_cosmwasm.so /lib/libgo_cosmwasm.so
+COPY --from=build-env /wasm/substrate_client.wasm /wasm/substrate_client.wasm
 
 RUN mkdir /home/gaia/.gaiad && chown gaia:gaia /home/gaia/.gaiad -R
 
