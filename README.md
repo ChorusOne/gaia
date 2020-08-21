@@ -73,3 +73,4 @@ For example, Let's take first client with id `vffykhgkrc` from the sample respon
 ```
 You can parse the stringified json to get the data about light client for example: best header, last finalized header, current authority set etc etc.
 
+[substrate_light_client]: https://github.com/ChorusOne/substrate-light-client
