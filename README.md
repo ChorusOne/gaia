@@ -23,6 +23,49 @@ Quantum tunnel interacts with light client daemon instead of interacting with ga
 gaiacli rest-server --chain-id="<your chain id>" --laddr=tcp://localhost:1317  --node tcp://localhost:26657 --read-timeout 10000 --write-timeout 10000
 ```
 
+## Submit a transaction to the light client:
+1. Creating a light client: To create light client, message of type `ibc/client/MsgCreateWasmClient` needs to be submitted. Example of such message: 
+```json
+{
+  "type": "ibc/client/MsgCreateWasmClient",
+  "value": {
+    "address": "cosmos1xccsl78jz98ydsfahrnluxefyvcnavuy4g3wd5",
+    "client_id": "mtnzosnstn",
+    "header": {
+      "authority_set": "<Initial authority set>",
+      "block": "<scale codec serialized SignedBlockWithAuthoritySet>",
+      "max_headers_allowed_between_justifications": 512,
+      "max_headers_allowed_to_store": 256,
+      "set_id": 0
+    },
+    "max_clock_drift": "30000000000",
+    "trusting_period": "2592000000000000",
+    "unbonding_period": "2595600000000000",
+    "wasm_id": "1"
+  }
+}
+```
+
+Here, `wasm_id` is Id of the wasm contract. `max_headers_allowed_between_justifications` is require that user must submit justification after stipulated blocks. This is to prevent an attack where attacker just feed non-finalized fork without submitting any justification.
+
+2. Update a light client: To update light client, message of type `ibc/client/MsgUpdateWasmClient` needs to be submitted. Example of such message:
+```json
+{
+  "type": "ibc/client/MsgUpdateWasmClient",
+  "value": {
+    "address": "cosmos1xccsl78jz98ydsfahrnluxefyvcnavuy4g3wd5",
+    "client_id": "mtnzosnstn",
+    "header": {
+      "authority_set": "<authority set>",
+      "block": "<scale codec serialized SignedBlockWithAuthoritySet>",
+      "set_id": 0
+    }
+  }
+}
+```
+
+Here, `client_id` needs to be previously referenced by `MsgCreateWasmClient`. `authority_set` and `set_id` are no-op for current version of light client.
+
 ## Check status of the client:
 There are two rpc endpoints available in Gaia LCD to query status of light client instances:
 1. `http://localhost:1317/ibc/clients`: Gives array of all clients exist in the system. Sample response:
