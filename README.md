@@ -4,7 +4,7 @@
 [![license](https://img.shields.io/github/license/cosmos/gaia.svg)](https://github.com/cosmos/gaia/blob/master/LICENSE)
 [![LoC](https://tokei.rs/b1/github/cosmos/gaia)](https://github.com/cosmos/gaia)
 
-This branch contains modified version of `Gaia` with CosmWasm enabled.
+This branch contains a modified version of `Gaia` that references a [version](https://github.com/ChorusOne/cosmos-sdk/tree/wasm-ibc) of `cosmos-sdk` with an additional IBC module which enables uploading and running of light client as a WASM smart contract.
 
 **Note**: Requires [Go 1.14+](https://golang.org/dl/)
 
