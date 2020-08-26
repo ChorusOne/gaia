@@ -54,7 +54,7 @@ COPY --from=build-env /go/bin/gaiacli /usr/bin/gaiacli
 COPY --from=build-env /go/pkg/mod/github.com/!cosm!wasm/go-cosmwasm@v0.8.1/api/libgo_cosmwasm.so /lib/libgo_cosmwasm.so
 COPY --from=build-env /wasm/substrate_client.wasm /wasm/substrate_client.wasm
 
-RUN mkdir /home/gaia/.gaiad && chown gaia:gaia /home/gaia/.gaiad -R
+RUN mkdir /home/gaia/.gaiad && chown gaia:gaia /home/gaia -R
 
 USER gaia
 
